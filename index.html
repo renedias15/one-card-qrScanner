@@ -1,77 +1,39 @@
 <!DOCTYPE html>
 <html>
-<script src="html5-qrcode.min.js"></script>
-<style>
-  .gradient-custom {
-    /* fallback for old browsers */
-    background: #6a11cb;
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
-  }
-  .row{
-    display:flex;
-  }
-  .navbar-brand img {
-    height: 30px;
-    margin-right: 10px;
-  }
-  
-  .navbar input[type="text"] {
-    padding: 6px 10px;
-    border-radius: 4px;
-    margin-left: 10px;
-  }
-  
-  .navbar a {
-    color: white;
-    padding: 14px 20px;
-    text-decoration: none;
-    font-size: 18px;
-  }
-  
-  .navbar {
-    background-color: #333;
-    transition: background-color 0.3s ease;
-  }
-  
-  .navbar a:hover {
-    background-color: #6d6b66;
-  }
-</style>
-<nav class="navbar navbar-expand-lg">
-  <a class="navbar-brand" href="#"><img src="../static/images/logo.png" alt="Logo" height="100" width="90" style="margin-left: 30px;"></a>
-  <a href="#">Home</a>
-  <a href="#">About</a>
-  <a href="/admin_login">Admin</a>
-  <a href="/instructions">Instructions</a>
-  <a href="/contact">Contact</a>
-</nav>
-<body style="margin:0px" class="vh-100 gradient-custom">
+<head>
+    <script src="html5-qrcode.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+        }
+        #reader {
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="reader"></div>
 
-<div class="row">
-  <div class="col">
-    <div style="width:500px;" id="reader"></div>
-  </div>
-</div>
+    <script type="text/javascript">
+        function onScanSuccess(qrCodeMessage) {
+            var currentUrl = qrCodeMessage;
+            var newUrl = currentUrl.replace("getUser", "admin");
+            window.location.href = newUrl;
+        }
+
+        function onScanError(errorMessage) {
+            // Handle scan error
+        }
+
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 10, qrbox: 250 }
+        );
+        html5QrcodeScanner.render(onScanSuccess, onScanError);
+    </script>
 </body>
-
-<script type="text/javascript">
-function onScanSuccess(qrCodeMessage) {
-    
-    var currentUrl = qrCodeMessage;
-    var newUrl = currentUrl.replace("getUser", "admin");
-    window.location.href = newUrl;
-}
-
-function onScanError(errorMessage) {
-  //handle scan error
-}
-
-var html5QrcodeScanner = new Html5QrcodeScanner(
-    "reader", { fps: 10, qrbox: 250 });
-html5QrcodeScanner.render(onScanSuccess, onScanError);
-
-</script>
 </html>
